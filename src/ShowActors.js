@@ -1,98 +1,58 @@
 /* jshint esversion: 6 */
 
+import CardData from "./CardData";
 import ChangeContents from "./ChangeContent";
-import wireframe from "./../assets/json/Wireframe.json";
+import Menu from "./Menu";
 
 export default class ShowActors {
-    constructor(data) {
-        const CC = new ChangeContents();
+  showActors(data) {
+    const CC = new ChangeContents();
 
-        /* START menu */
-        const menuWireframeData = wireframe.html[0];
+    //**START menu */
 
-        const menuContainer = document.createElement(menuWireframeData.parent.type);
-        menuContainer.id = menuWireframeData.parent.id;
-        document.body.appendChild(menuContainer);
+    const menu = new Menu();
+    menu.createMenu(CC, data.content);
 
-        const menuItemContainer = document.createElement(menuWireframeData.child[0].type);
-        menuItemContainer.id = menuWireframeData.child[0].id;
-        menuContainer.appendChild(menuItemContainer);
+    //**END menu */
 
-        data.forEach((element, index) => {
-            const menuItemWireframeData = menuWireframeData.innerChild[index];
+    const cardContainer = document.createElement("section");
+    cardContainer.id = "cardContainer";
+    document.body.appendChild(cardContainer);
 
-            const menuItem = document.createElement(menuItemWireframeData.type);
-            menuItem.className = menuItemWireframeData.class;
-            menuItem.textContent = element.name;
-            menuItem.dataset.index = index;
-            menuItemContainer.appendChild(menuItem);
+    const card = document.createElement("div");
+    card.id = "card";
+    cardContainer.appendChild(card);
 
-            menuItem.addEventListener("click", (event) => {
-                CC.getData(event, element);
-            });
-        });
-        /* END menu */
+    const childCardArray = ["headline", "imagecon", "content", "info"];
 
-        /* START card container */
-        const cardWireframeData = wireframe.html[1];
+    childCardArray.forEach((elementId) => {
+      const cardChild = document.createElement("div");
+      cardChild.id = elementId;
+      card.appendChild(cardChild);
+    });
 
-        const cardContainer = document.createElement(cardWireframeData.parent.type);
-        cardContainer.id = cardWireframeData.parent.id;
-        document.body.appendChild(cardContainer);
+    const showImg = document.createElement("img"); //default card image
+    showImg.id = "showImg";
+    showImg.src = "../assets/images/ninja.png";
+    document.querySelector("#imagecon").appendChild(showImg);
 
-        const card = document.createElement(cardWireframeData.child[0].type);
-        card.id = cardWireframeData.child[0].id;
-        cardContainer.appendChild(card);
+    const infochild = document.createElement("div");
+    infochild.id = "infochild";
+    document.querySelector("#info").appendChild(infochild);
 
-        const childCardArray = wireframe.html[1].innerChild;
+    const strength = document.createElement("div");
+    strength.id = "strength";
+    infochild.appendChild(strength);
 
-        childCardArray.forEach((element) => {
-            const childCard = document.createElement(element.type);
-            childCard.id = element.id;
-            card.appendChild(childCard);
-            if (element.id === "headline")
-                childCard.textContent = 'Ninja';
-            if (element.id === "content")
-                childCard.textContent = 'Ninjas are cool, do not mess with them';
+    const lives = document.createElement("div");
+    lives.id = "lives";
+    infochild.appendChild(lives);
 
-        });
+    const cardData = new CardData();
+    card.addEventListener("click", () => cardData.getCardData(CC, data.content));
 
-        /* START card data */
-        const cardDataWireframeData = wireframe.html[4];
-
-        const showImg = document.createElement(cardDataWireframeData.parent.type);
-        showImg.id = cardDataWireframeData.parent.id;
-        showImg.src = `../assets/images/ninja.png`;
-        document.querySelector("#imageCon").appendChild(showImg);
-        /* END card data */
-        /* END card container */
-
-        /* START footer */
-        const footerWireframeData = wireframe.html[2];
-
-        const footer = document.createElement(footerWireframeData.parent.type);
-        footer.id = footerWireframeData.parent.id;
-        document.body.appendChild(footer);
-        /* END footer */
-
-        /* START modal */
-        const modalWireframeData = wireframe.html[3];
-
-        const infoChild = document.createElement(modalWireframeData.parent.type);
-        infoChild.id = modalWireframeData.parent.id;
-        document.querySelector("#info").appendChild(infoChild);
-
-        const strength = document.createElement(modalWireframeData.child[0].type);
-        strength.id = modalWireframeData.child[0].id;
-        document.querySelector("#infoChild").appendChild(strength);
-
-        const lives = document.createElement(modalWireframeData.child[1].type);
-        lives.id = modalWireframeData.child[1].id;
-        document.querySelector("#infoChild").appendChild(lives);
-
-        card.addEventListener("click", (event) => {
-
-        });
-        //console.log(data);
-    }
-}
+    const footer = document.createElement("footer");
+    footer.id = "footer";
+    document.body.appendChild(footer);
+  }
+} //END class

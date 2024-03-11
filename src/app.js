@@ -8,7 +8,6 @@ import dataObject from "./../assets/json/data.json";
 // **  IIFE: Immediately Invoked Function Expression  */
 
 (() => {
-	//console.log("starting the cool->app");
-
-	new ShowActors(dataObject.content);
+  let showActors = new ShowActors();
+  showActors.showActors(dataObject);
 })();

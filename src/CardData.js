@@ -2,36 +2,27 @@
 
 import { gsap } from "gsap";
 
-class CardData {
+export default class CardData {
+  getCardData(CC, data) {
+    if (CC.currentIndex > -1) {
+      document.querySelector("#info").style.display = "block";
 
-    constructor(CC, data) {
+      gsap.to("#info", {
+        duration: 0.05,
+        rotate: 10,
+        scale: 1.3,
+        repeat: 3,
+        transformOrigin: "center",
+        yoyo: true,
+      });
 
-        console.log("carddata");
+      let addInfo = data[CC.currentIndex].information;
 
-        if (CC.currentIndex > -1) {
+      let mStrength = document.querySelector("#strength");
+      mStrength.textContent = addInfo.strength;
 
-            document.querySelector("#info").style.display = "block";
-
-            gsap.to("#info", {
-                duration: 0.05,
-                rotate: 10,
-                scale: 1.3,
-                repeat: 3,
-                transformOrigin: "center",
-                yoyo: true
-            });
-
-            let addInfo = data[CC.currentIndex].information;
-            console.log(addInfo.strength);
-
-            let mStrength = document.querySelector("#strength");
-            mStrength.textContent = addInfo.strength;
-
-            let mLives = document.querySelector("#lives");
-            mLives.textContent = addInfo.lives;
-
-        }
+      let mLives = document.querySelector("#lives");
+      mLives.textContent = addInfo.lives;
     }
+  }
 }
-
-export default CardData;
